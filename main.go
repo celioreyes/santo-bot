@@ -7,6 +7,11 @@ import (
 	"syscall"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/robfig/cron/v3"
+)
+
+const (
+	generalchannel = "753977130714660963"
 )
 
 // Variables used for command line parameters
@@ -20,6 +25,7 @@ func main() {
 		log.Println("DS_TOKEN is required.")
 		return
 	}
+
 	// Create a new Discord session using the provided bot token.
 	dg, err := discordgo.New("Bot " + token)
 	if err != nil {
@@ -40,15 +46,12 @@ func main() {
 		return
 	}
 
-	// Ideally we want this to be inside of some loop or cron / channel to check for day of week
-	// msg, err := dg.ChannelMessageSend("753977130714660963", "It's saturdayyyyy")
-	// if err != nil {
-	//	log.Println("fuckkk")
-	//	log.Println(err)
-	//	return
-	//}
+	// configure crons
+	croninstance := cron.New()
 
-	// log.Printf("Looks good? %s", msg.ID)
+	croninstance.AddFunc("* * * * 6", isItFriday(dg))
+
+	croninstance.Start()
 
 	// Wait here until CTRL-C or other term signal is received.
 	log.Println("Bot is now running.  Press CTRL-C to exit.")
@@ -58,4 +61,7 @@ func main() {
 
 	// Cleanly close down the Discord session.
 	dg.Close()
+
+	// Cleanly stop all crons
+	croninstance.Stop()
 }

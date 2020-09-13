@@ -67,6 +67,7 @@ func handleW2G(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
+	req.Header.Set("Content-Type", "application/json")
 	resp, err := s.Client.Do(req)
 	if err != nil {
 		s.ChannelMessageSend(m.ChannelID, "Oops something went wrong preparing request for W2G. Try Again or contact a server admin")
