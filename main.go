@@ -49,7 +49,7 @@ func main() {
 	// configure crons
 	croninstance := cron.New()
 
-	croninstance.AddFunc("* * * * 6", isItFriday(dg))
+	croninstance.AddFunc("* * * * 0", isItFriday(dg))
 
 	croninstance.Start()
 
