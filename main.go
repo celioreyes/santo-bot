@@ -19,6 +19,7 @@ var (
 	token string
 )
 
+// TODO: change logger to logrus and add envconf support
 func main() {
 	token = os.Getenv("DS_TOKEN")
 	if token == "" {
@@ -49,8 +50,10 @@ func main() {
 	// configure crons
 	croninstance := cron.New()
 
-	croninstance.AddFunc("* * * * 0", isItFriday(dg))
+	// On Fridays send itsFriday video at 9am
+	croninstance.AddFunc("0 13 * * 5", itsFriday(dg))
 
+	// Start cron
 	croninstance.Start()
 
 	// Wait here until CTRL-C or other term signal is received.

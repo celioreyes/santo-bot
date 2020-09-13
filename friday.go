@@ -7,8 +7,8 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
-// isItFriday - go routine that will keep checking until it's friday. Once it's Friday will post desidred video
-func isItFriday(s *discordgo.Session) func() {
+// itsFriday - go routine that will keep checking until it's friday. Once it's Friday will post desidred video
+func itsFriday(s *discordgo.Session) func() {
 	return func() {
 		log.Println("Friday!")
 		videoFile := "its_friday_mufasa.mp4"
