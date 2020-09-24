@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	generalchannel = "753977130714660963"
+	generalchannel = "699841515610177568"
 )
 
 // Variables used for command line parameters
