@@ -2,11 +2,13 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/celioreyes/santo-bot/pkg/howlongtobeat"
 	"github.com/robfig/cron/v3"
 )
 
@@ -17,6 +19,8 @@ const (
 // Variables used for command line parameters
 var (
 	token string
+
+	hltb *howlongtobeat.Service
 )
 
 // TODO: change logger to logrus and add envconf support
@@ -26,6 +30,8 @@ func main() {
 		log.Println("DS_TOKEN is required.")
 		return
 	}
+
+	hltb = howlongtobeat.New(http.DefaultClient)
 
 	// Create a new Discord session using the provided bot token.
 	dg, err := discordgo.New("Bot " + token)
@@ -37,6 +43,7 @@ func main() {
 
 	// Register the messageCreate func as a callback for MessageCreate events.
 	dg.AddHandler(handleW2G)
+	dg.AddHandler(handleHLTB)
 
 	// In this example, we only care about receiving message events.
 	dg.Identify.Intents = discordgo.MakeIntent(discordgo.IntentsGuildMessages)
